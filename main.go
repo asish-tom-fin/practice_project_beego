@@ -23,7 +23,7 @@ const (
 	SEARCH_BLOG = 3
 	DELETE_BLOG = 4
 	EDIT_BLOG   = 5
-	EXIT_APP    = 6
+	EXIT_APP    = 9
 )
 
 func init() {
