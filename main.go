@@ -10,9 +10,9 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+// This struct Blog connects blog to db
 type Blog struct {
-	// This struct connects blog to db
-	Id            int64     `orm:"column(id);auto" json:"id"`
+	ID            int64     `orm:"column(id);auto" json:"id"`
 	Post          string    `orm:"column(post);size(2000);null" json:"post"`
 	CreatedAt     time.Time `orm:"auto_now_add;column(created_at);type(datetime);null" json:"createdAt"`
 	LastUpdatedAt time.Time `orm:"auto_now;column(last_updated_at);type(datetime);null" json:"lastUpdatedAt"`
@@ -115,9 +115,9 @@ func listAllBlogs(o orm.Ormer) {
 }
 
 func renderBlogList(blogs []orm.Params) {
-	println(`Result:////// in the order Id | Post | Name | Created At| Last Updated At`)
+	println(`Result:////// in the order ID | Post | Name | Created At| Last Updated At`)
 	for _, bl := range blogs {
-		fmt.Println(bl["Id"], " | ", bl["Post"], " | ", bl["CreatedBy"], " | ",
+		fmt.Println(bl["ID"], " | ", bl["Post"], " | ", bl["CreatedBy"], " | ",
 			bl["CreatedAt"], " | ", bl["LastUpdatedAt"])
 	}
 	println(`/////////////////////////////////////////////////////////////`)
@@ -129,7 +129,7 @@ func searchAndListByID(o orm.Ormer) {
 	fmt.Println("Enter id to search")
 	var id int
 	fmt.Scanf("%d", &id)
-	qs := o.QueryTable("blog").Filter("Id", id)
+	qs := o.QueryTable("blog").Filter("ID", id)
 	var blogs []orm.Params
 	count, _ := qs.Values(&blogs)
 	if count != 0 {
@@ -144,7 +144,7 @@ func searchAndDeleteByID(o orm.Ormer) {
 	fmt.Println("Enter id to search")
 	var id int
 	fmt.Scanf("%d", &id)
-	count, _ := o.QueryTable("blog").Filter("Id", id).Delete()
+	count, _ := o.QueryTable("blog").Filter("ID", id).Delete()
 	if count != 0 {
 		qs := o.QueryTable("blog")
 		var blogs []orm.Params
@@ -164,11 +164,11 @@ func searchAndEditByID(o orm.Ormer) {
 	fmt.Scanf("%d", &id)
 	fmt.Println(`Enter updated blog in " "(double quotes):`)
 	fmt.Scanf("%q", &post)
-	count, _ := o.QueryTable("blog").Filter("Id", id).Update(orm.Params{
+	count, _ := o.QueryTable("blog").Filter("ID", id).Update(orm.Params{
 		"Post": post,
 	})
 	if count != 0 {
-		qs := o.QueryTable("blog").Filter("Id", id)
+		qs := o.QueryTable("blog").Filter("ID", id)
 		var blogs []orm.Params
 		qs.Values(&blogs)
 		renderBlogList(blogs)
