@@ -3,13 +3,15 @@ package main
 import (
 	_ "database/sql"
 	"fmt"
+	"time"
+
 	"github.com/astaxie/beego/orm"
 	_ "github.com/buger/goterm"
 	_ "github.com/go-sql-driver/mysql"
-	"time"
 )
 
 type Blog struct {
+	// This struct connects blog to db
 	Id            int64     `orm:"column(id);auto" json:"id"`
 	Post          string    `orm:"column(post);size(2000);null" json:"post"`
 	CreatedAt     time.Time `orm:"auto_now_add;column(created_at);type(datetime);null" json:"createdAt"`
@@ -18,6 +20,7 @@ type Blog struct {
 }
 
 const (
+	// Const to give meaning for switch case choices
 	CreateBlog = 1
 	ListBlog   = 2
 	SearchBlog = 3
@@ -96,9 +99,9 @@ func newBlog(o orm.Ormer) {
 	fmt.Scanf("%s", &createdBy)
 	fmt.Println(`Enter your post in " " (double quotes):`)
 	fmt.Scanf("%q", &post)
-	new_blog := Blog{Post: post, CreatedBy: createdBy}
+	newBlog := Blog{Post: post, CreatedBy: createdBy}
 	fmt.Println("Saving to db")
-	fmt.Println(o.Insert(&new_blog))
+	fmt.Println(o.Insert(&newBlog))
 	fmt.Scanf("%s", &post)
 	return
 }
