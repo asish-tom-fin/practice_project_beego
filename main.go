@@ -10,10 +10,11 @@ import (
 )
 
 type Blog struct {
-	Id        int64     `orm:"column(id);auto" json:"id"`
-	Post      string    `orm:"column(post);size(2000);null" json:"post"`
-	CreatedAt time.Time `orm:"auto_now_add;column(created_at);type(datetime);null" json:"createdAt"`
-	CreatedBy string    `orm:"column(created_by);size(200);null" json:"createdBy"`
+	Id            int64     `orm:"column(id);auto" json:"id"`
+	Post          string    `orm:"column(post);size(2000);null" json:"post"`
+	CreatedAt     time.Time `orm:"auto_now_add;column(created_at);type(datetime);null" json:"createdAt"`
+	LastUpdatedAt time.Time `orm:"auto_now;column(last_updated_at);type(datetime);null" json:"lastUpdatedAt"`
+	CreatedBy     string    `orm:"column(created_by);size(200);null" json:"createdBy"`
 }
 
 const (
@@ -91,9 +92,9 @@ func printChoices() {
 func newBlog(o orm.Ormer) {
 	var post string
 	var createdBy string
-	fmt.Println("Enter your name")
+	fmt.Println("Enter your first name")
 	fmt.Scanf("%s", &createdBy)
-	fmt.Println(`Enter your post in " ":`)
+	fmt.Println(`Enter your post in " " (double quotes):`)
 	fmt.Scanf("%q", &post)
 	new_blog := Blog{Post: post, CreatedBy: createdBy}
 	fmt.Println("Saving to db")
@@ -111,9 +112,10 @@ func listAllBlogs(o orm.Ormer) {
 }
 
 func renderBlogList(blogs []orm.Params) {
-	println(`Result:///////////////////////////////////////////////////////`)
+	println(`Result:////// in the order Id | Post | Name | Created At| Last Updated At`)
 	for _, bl := range blogs {
-		fmt.Println(bl["Id"], bl["Post"], bl["CreatedBy"], bl["CreatedAt"])
+		fmt.Println(bl["Id"], " | ", bl["Post"], " | ", bl["CreatedBy"], " | ",
+			bl["CreatedAt"], " | ", bl["LastUpdatedAt"])
 	}
 	println(`/////////////////////////////////////////////////////////////`)
 	return
@@ -157,7 +159,7 @@ func searchAndEditByID(o orm.Ormer) {
 	var id int
 	var post string
 	fmt.Scanf("%d", &id)
-	fmt.Println(`Enter updated blog in " ":`)
+	fmt.Println(`Enter updated blog in " "(double quotes):`)
 	fmt.Scanf("%q", &post)
 	count, _ := o.QueryTable("blog").Filter("Id", id).Update(orm.Params{
 		"Post": post,
