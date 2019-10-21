@@ -6,12 +6,14 @@ import (
 	"github.com/astaxie/beego/orm"
 	_ "github.com/buger/goterm"
 	_ "github.com/go-sql-driver/mysql"
+	"time"
 )
 
 type Blog struct {
-	Id        int64  `orm:"column(id);auto" json:"id"`
-	Post      string `orm:"column(post);size(2000);null" json:"post"`
-	CreatedBy string `orm:"column(created_by);size(200);null" json:"created_by"`
+	Id        int64     `orm:"column(id);auto" json:"id"`
+	Post      string    `orm:"column(post);size(2000);null" json:"post"`
+	CreatedAt time.Time `orm:"auto_now_add;column(created_at);type(datetime);null" json:"createdAt"`
+	CreatedBy string    `orm:"column(created_by);size(200);null" json:"createdBy"`
 }
 
 const (
@@ -111,7 +113,7 @@ func listAllBlogs(o orm.Ormer) {
 func renderBlogList(blogs []orm.Params) {
 	println(`Result:///////////////////////////////////////////////////////`)
 	for _, bl := range blogs {
-		fmt.Println(bl["Id"], bl["Post"], bl["CreatedBy"])
+		fmt.Println(bl["Id"], bl["Post"], bl["CreatedBy"], bl["CreatedAt"])
 	}
 	println(`/////////////////////////////////////////////////////////////`)
 	return
