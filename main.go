@@ -18,12 +18,12 @@ type Blog struct {
 }
 
 const (
-	CREATE_BLOG = 1
-	LIST_BLOG   = 2
-	SEARCH_BLOG = 3
-	DELETE_BLOG = 4
-	EDIT_BLOG   = 5
-	EXIT_APP    = 9
+	CreateBlog = 1
+	ListBlog   = 2
+	SearchBlog = 3
+	DeleteBlog = 4
+	EditBlog   = 5
+	ExitApp    = 9
 )
 
 func init() {
@@ -55,21 +55,21 @@ func readChoiceAndSwitch(o orm.Ormer) bool {
 	printChoices()
 	fmt.Scanf("%d", &choice)
 	switch choice {
-	case CREATE_BLOG:
+	case CreateBlog:
 		newBlog(o)
 		break
-	case LIST_BLOG:
+	case ListBlog:
 		listAllBlogs(o)
 		break
-	case SEARCH_BLOG:
+	case SearchBlog:
 		searchAndListByID(o)
 		break
-	case DELETE_BLOG:
+	case DeleteBlog:
 		searchAndDeleteByID(o)
 		break
-	case EDIT_BLOG:
+	case EditBlog:
 		searchAndEditByID(o)
-	case EXIT_APP:
+	case ExitApp:
 		return true
 
 	}
