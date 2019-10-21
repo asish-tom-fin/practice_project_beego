@@ -10,7 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// This struct Blog connects blog to db
+// Blog connects blog to db
 type Blog struct {
 	ID            int64     `orm:"column(id);auto" json:"id"`
 	Post          string    `orm:"column(post);size(2000);null" json:"post"`
@@ -19,14 +19,14 @@ type Blog struct {
 	CreatedBy     string    `orm:"column(created_by);size(200);null" json:"createdBy"`
 }
 
+// Magic numbers put to constants to for meaningful case identifiers.
 const (
-	// Const to give meaning for switch case choices
-	CreateBlog = 1
-	ListBlog   = 2
-	SearchBlog = 3
-	DeleteBlog = 4
-	EditBlog   = 5
-	ExitApp    = 9
+	CreateBlog = 1 // CreateBlog to give meaning for switch case choices
+	ListBlog   = 2 // ListBlog to give meaning for switch case choices
+	SearchBlog = 3 // SearchBlog to give meaning for switch case choices
+	DeleteBlog = 4 // DeleteBlog to give meaning for switch case choices
+	EditBlog   = 5 // EditBlog to give meaning for switch case choices
+	ExitApp    = 9 // ExitApp to give meaning for switch case choices
 )
 
 func init() {
